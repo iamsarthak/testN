@@ -69,13 +69,17 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script>
+        const proxyUrl = "https://api.allorigins.win/raw?url=";
         const dataUrl = "https://archives.nseindia.com/content/equities/bulk.csv";
+        const apiUrl = proxyUrl + encodeURIComponent(dataUrl);
+
+        let data = [];
 
         async function fetchData() {
-            const response = await fetch(dataUrl);
+            const response = await fetch(apiUrl);
             const dataText = await response.text();
             const rows = dataText.split('\n').slice(1); // Skip header row
-            const data = rows.map(row => {
+            data = rows.map(row => {
                 const values = row.split(',');
                 return {
                     "Date": values[0],
